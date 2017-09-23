@@ -243,6 +243,7 @@ void List::replace(int new_value)
 void List::erase()
 {
     data[position] = 0; 
+    left_justify();
 }
 
 

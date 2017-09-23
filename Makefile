@@ -1,4 +1,4 @@
-all: table 
+all: stack queue
 
 %: %.cc
 	g++ -std=c++11 $< -o $@

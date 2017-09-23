@@ -198,7 +198,7 @@ Stat operator+(Stat &A, Stat &B)
 int main()
 {
 
-	outfile.open("outfile.out");
+	outfile.open("outfile-Stat.out");
 	if (!outfile)
 	{
 		outfile << "The outfile did not open!";
