@@ -270,9 +270,9 @@ void List::print()
 {
     for (int i = 0; i < CAPACITY; i++)
     {
-        cout << data[i] << " ";
+        outfile << data[i] << " ";
     }
-    cout << "\n";
+    outfile << "\n";
 }
 // JUST FOR INITIAL TESTING
 
@@ -395,7 +395,7 @@ class Stack : virtual public List
 Stack::Stack():List()
 {
     max = 0;      
-    cout << "Stack Constructed\n";
+    outfile << "Stack Constructed\n";
 }
 
 
@@ -497,7 +497,7 @@ class Queue : virtual public List
 
 Queue::Queue():List()
 {
-    cout << "Queue constructed\n";
+    outfile << "Queue constructed\n";
 }
 
 
@@ -572,10 +572,36 @@ int Queue::top_stack()
 
 int main()
 {
+    
+	outfile.open("outfile-queue.out");
+	if (!outfile)
+	{
+		outfile << "The outfile did not open!";
+		return 1;
+	}
+	
+	outfile << "input:\n";
     Queue q;
     for (int i = 11; i <= 20; i++)
     {
         q.push(i);
+        outfile << i << " "; 
+    }
+    
+    
+    outfile << endl;
+    
+    for (int i = 0; i < 10; i++)
+    {
+        q.push_stack(q.top());
+        q.pop();
+    }
+    
+    
+    for (int i = 0; i < 10; i++)
+    {
+        q.push(q.top_stack());
+        q.pop_stack();
     }
     
     
@@ -601,7 +627,15 @@ int main()
         q.push(q.top_stack());
         q.pop_stack();
     }
-    q.print();
+    
+    outfile << "output:\n";
+    for (int i = 0; i < 10; i++)
+    {
+        outfile << q.top() << " ";
+        q.pop();
+    }
+    
+    outfile << endl;
     
     return 0;
 }

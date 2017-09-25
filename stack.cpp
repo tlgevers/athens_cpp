@@ -9,6 +9,7 @@
 using namespace std;
 
 ofstream outfile;
+ifstream infile;
 
 class List
 {
@@ -16,7 +17,7 @@ class List
     // TYPEDEF VALUES AND SIZE OF ARRAY VALUE
     typedef int value_type;
     typedef std::size_t size_type;
-    static const size_type CAPACITY = 20; 
+    static const size_type CAPACITY = 70; 
     
     // CONSTRUCTORS
     List(); 
@@ -476,34 +477,28 @@ int Stack::get_max()
 
 int main()
 {
+	infile.open("StackMaxNbrs.txt");
+	if (!infile)
+	{
+		cout << "The infile did not open" << endl;
+	}
+	
+	outfile.open("outfile-Stack.out");
+	if (!outfile)
+	{
+		outfile << "The outfile did not open!";
+		return 1;
+	}
+	
     Stack st;
-    // cout << st.empty() << endl;
-    // cout << "size\n";
-    // cout << st.size() << endl;
-    // cout << "push\n";
-    // st.push(1);
-    // cout << "size\n";
-    // cout << st.size() << endl;
-    // cout << "push\n";
-    // st.push(2);
-    // cout << "size\n";
-    // cout << st.size() << endl;
-    // cout << "top\n";
-    // cout << st.top() << endl;
-    // cout << "pop\n";
-    // st.pop();
-    // cout << "size\n";
-    // cout << st.size() << endl;
-    // cout << "push\n";
-    // st.push(23);
-    // cout << "size\n";
-    // cout << st.size() << endl;
-    // cout << "push\n";
-    for (int i = 1; i <= 10; i++)
-    {
-        st.push(i);
-        cout << "max" << st.get_max() << endl;
-    }
+    int read;
+    
+	while (infile >> read)
+	{
+		st.push(read);
+	}
+    
+    
     st.print();
     cout << "size\n";
     cout << st.size() << endl;

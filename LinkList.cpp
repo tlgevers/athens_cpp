@@ -2,10 +2,7 @@
 //
 
 #include <iomanip>
-#include <sstream>
 #include <string>
-#include <cstring>
-#include <string.h>
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -34,6 +31,7 @@ public:
 	void insertNode(int, string);
 	void deleteNode(int);
 	void displayList() const;
+	bool check_average();
 	ListNode * searchGrade(int);
 };
 
@@ -64,7 +62,7 @@ void LL::insertNode(int grade, string name = "")
 		ptr = head;
 		prev = NULL;
 
-		while (ptr != NULL && ptr->grade < grade)
+		while (ptr != NULL && ptr->grade > grade)
 		{
 			prev = ptr;
 			ptr = ptr->link;
@@ -123,13 +121,12 @@ void LL::displayList() const
 	ptr = head;
 	int count = 0;
 
-	while (ptr)
+	while (ptr != NULL)
 	{
-		cout << "Grade: " << ptr->grade << " Student: " << ptr->name << endl;
+		outfile << "Grade: " << ptr->grade << " Student: " << ptr->name << endl;
 		count++;
 		ptr = ptr->link;
 	}
-	cout << " count is: " << count << endl;
 }
 
 
@@ -149,50 +146,57 @@ ListNode * LL::searchGrade(int g)
 	return NULL;
 }
 
+bool LL::check_average()
+{
+	ListNode * ptr;
+	ptr = head;
+	while (ptr != NULL)
+	{
+		if (ptr->grade >= 270)
+		{
+			deleteNode(ptr->grade);
+		}
+		ptr = ptr->link;
+	}
+}
+
 int main()
 {
 	infile.open("LinkLnamesAndGrades.txt");
 	if (!infile)
 	{
-		cout << "The infile did not open" << endl;
+		outfile << "The infile did not open" << endl;
 	}
 
 	outfile.open("outfile-LinkList.out");
 	if (!outfile)
 	{
-		cout << "The outfile did not open!" << endl;
+		outfile << "The outfile did not open!" << endl;
 	}
 	LL lk;
-//	lk.insertNode(1);
-//	lk.insertNode(5, "Trevor");
-//	lk.insertNode(2, "George");
-//	lk.insertNode(9, "Kramer");
-//	lk.displayList();
-//	cout << "after delete" << "\n";
-//	lk.deleteNode(1);
-
-//	lk.displayList();
-	char cstr[20];
+	
 	string read = "";
 	int grade = 0;
-	int count = 0;
 	int once = 0;
 	int check = 0;
 	infile >> grade;
+	
 	while (infile >> read >> grade)
 	{
 		lk.insertNode(grade, read);
 		check++;
 	}
-	cout << "check is: " << check << endl;
+	outfile << "Before deleting A averages:\n";
 	lk.displayList();
-	//lk.deleteNode(197);
-	cout << "after delete: " << "\n";
+	
+	lk.check_average();
+	outfile << "after deleting A students: " << "\n";
 	lk.displayList();
 	ListNode * temp;
 	temp = lk.searchGrade(291);
-	cout << temp->grade << " test" << endl;
-
+	
+	infile.close();
+	outfile.close();
     return 0;
 }
 
