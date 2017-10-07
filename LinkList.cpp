@@ -21,6 +21,7 @@ class LL
 {
 private:
 	ListNode *head;
+	void printReverse(ListNode *, ofstream &);
 public:
 	LL()
 	{
@@ -33,6 +34,11 @@ public:
 	void displayList() const;
 	bool check_average();
 	ListNode * searchGrade(int);
+	void printReverse(ofstream &outfile)
+	{
+		outfile << "print reverse of link list " << endl;
+		printReverse(head, outfile);
+	}
 };
 
 ListNode * LL::newNode(int g, string n)
@@ -160,6 +166,16 @@ bool LL::check_average()
 	}
 }
 
+
+void LL::printReverse(ListNode * ptr, ofstream &outfile)
+{
+	if (ptr)
+	{
+		printReverse(ptr->link, outfile);
+		outfile << ptr->grade << endl;
+	}
+}
+
 int main()
 {
 	infile.open("LinkLnamesAndGrades.txt");
@@ -188,6 +204,8 @@ int main()
 	}
 	outfile << "Before deleting A averages:\n";
 	lk.displayList();
+	
+	lk.printReverse(outfile);
 	
 	lk.check_average();
 	outfile << "after deleting A students: " << "\n";

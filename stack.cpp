@@ -270,9 +270,9 @@ void List::print()
 {
     for (int i = 0; i < CAPACITY; i++)
     {
-        cout << data[i] << " ";
+        outfile << data[i] << " ";
     }
-    cout << "\n";
+    outfile << "\n";
 }
 // JUST FOR INITIAL TESTING
 
@@ -480,7 +480,7 @@ int main()
 	infile.open("StackMaxNbrs.txt");
 	if (!infile)
 	{
-		cout << "The infile did not open" << endl;
+		outfile << "The infile did not open" << endl;
 	}
 	
 	outfile.open("outfile-Stack.out");
@@ -496,23 +496,22 @@ int main()
 	while (infile >> read)
 	{
 		st.push(read);
+		outfile << "max is: " << st.get_max() << endl;
 	}
     
-    
-    st.print();
-    cout << "size\n";
-    cout << st.size() << endl;
-    cout << "top\n";
-    cout << st.top() << endl;
+    outfile << "size\n";
+    outfile << st.size() << endl;
+    outfile << "top\n";
+    outfile << st.top() << endl;
     
     for (int i = 0; i < 5; i++)
     {
         st.pop();
     }
-    cout << "size\n";
-    cout << st.size() << endl;
-    cout << "top\n";
-    cout << st.top() << endl;
-    st.print();
+    
+    outfile << "size after pop\n";
+    outfile << st.size() << endl;
+    outfile << "top\n";
+    outfile << st.top() << endl;
 	return 0;
 }

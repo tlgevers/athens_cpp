@@ -148,7 +148,7 @@ bool point::operator>=(point &A)
 }
 
 
-std::ostream & operator<<(std::ostream &out, point &A)
+ostream & operator<<(ostream &out, point &A)
 {
    out << "(" << A.get_x() << "," << A.get_y() << ")" << "\n";
    out << "\n";
