@@ -1,0 +1,115 @@
+
+// int main()
+// {
+    // List ll;
+    // List mm;
+    // ll.insertBefore(8);
+    // ll.print();
+    // ll.insertBefore(7);
+    // ll.print();
+    // ll.insertBefore(6);
+    // ll.print();
+    // ll.insertBefore(33);
+    // ll.print();
+    // ll.insertBefore(55);
+    // ll.print();
+    // ll.insertBefore(66);
+    // ll.print();
+    // ll.insertAfter(77);
+    // ll.print();
+    // ll.insertAfter(88);
+    // ll.print();
+    // ll.setPos(19);
+    // ll.insertAfter(99);
+    // ll.print();
+    // ll.insertBefore(100);
+    // ll.print();
+    // ll.insertBefore(200);
+    // ll.next();
+    // ll.next();
+    // ll.print();
+    // ll.setPos(8);
+    
+    // for (int i = 0; i < 20; i++)
+    // {
+    //     ll.insertBefore(5);
+    //     ll.next();
+    //     ll.print();
+    // }
+    
+    // for (int i = 0; i < 20; i++)
+    // {
+    //     mm.insertBefore(6);
+    //     mm.next();
+    // }
+    
+    // mm.print();
+    
+    // cout << ll.size() << "\n";
+    // cout << "Result: " << boolalpha << (ll == mm) << "\n";
+    
+    // mm.clear();
+    // mm.print();
+    
+    // cout << ll.getElement() << "\n";
+    // cout << ll.getPos() << "\n";
+    // ll.print();
+    // cout << "\n";
+    // List A(ll);    
+    // // ll.setPos(18);
+    // ll.insertBefore(2);
+    // ll.getElement();
+    // cout << "\n";
+    // ll.print();
+    
+    // ll.insertBefore(1);
+    // ll.setPos(0);
+    // ll.insertAfter(2);
+    // ll.setPos(2);
+    // ll.insertBefore(3);
+    // ll.print();
+    // cout << "\n";
+    // cout << "size: " << ll.size() << "\n";
+    // cout << "empty: " << boolalpha << ll.empty() << "\n";
+    // cout << ll.getElement() << "\n";
+    
+    // cout << "position 1 " << ll.getPos() << endl;
+    // cout << "value1 " << ll.getElement() << endl;
+    // ll.insert(3);
+    // cout << "position 2 " << ll.getPos() << endl;
+    // cout << "value2 " << ll.getElement() << endl;
+    // ll.insert(5);
+    // cout << "position 3 " << ll.getPos() << endl;
+    // cout << "value3 " << ll.getElement() << endl;
+    // cout << ll.size() << endl;
+    // ll.print();
+    // return 0;
+// }
+
+// int main()
+// {
+//     float *p = new float[24];
+//     table_copy(p, table, 24);
+//     cout << "p\n";
+//     table_print(p, sz);
+//     float min;
+//     min = table_min(p, 11);
+//     cout << "min: " << min << "\n";
+//     table_print_rev(table, sz);
+//     table_add1(table, sz);
+//     table_print(table, sz);
+//     table_fill(table, sz, 50);
+//     table_print(table, sz);
+//     float sum;
+//     sum =table_sum(p, 11);
+//     cout << sum << "\n"; 
+//     table_print(p, 11);
+//     float avg;
+//     avg = table_avg(p, 11);
+//     cout << "avg: " << avg << "\n";
+    
+//     float * check;
+//     check = table_contain(p, 11, 85);
+//     cout << *check << endl;
+//     return 0;
+// }

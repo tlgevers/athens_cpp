@@ -1,0 +1,210 @@
+// Program to Calculate Molecular Weights
+
+// Matt Walker CSC102
+
+#include <iostream.h>
+#include <fstream.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#include <iomanip.h>
+
+// Constants
+const int E_SIZE = 3;
+const int I_MAX = 32;
+
+// Global file pointers
+ifstream source;
+ifstream formula;
+
+// Structure
+struct Atomic_weight
+{
+	char element[E_SIZE];
+	float weight;
+} Index[I_MAX];
+
+// Functions
+void Read_element_key(struct Atomic_weight[], int);
+void Sort(struct Atomic_weight[]);
+void Swap(struct Atomic_weight[], int, int);
+void Parse_formula(struct Atomic_weight[], int);
+void Get_element(char[], char);
+void Get_subscript(char[]);
+void Search(struct Atomic_weight[], int, char[], float&);
+float Sum_weight(int, float);
+
+int main()
+{
+	int i = 0;
+
+	Read_element_key(Index, i);
+	Sort(Index);
+	Parse_formula(Index, i);
+
+	return 0;
+}
+
+
+void Read_element_key(Atomic_weight Index[], int i)
+{
+	char temp_char;
+	int i_e;
+
+
+	source.open("element.dat");
+	source.get(temp_char);
+
+	while (source)
+	{
+		if (isalpha(temp_char))
+		{
+			 for (i_e=0;isalpha(temp_char);i_e++)
+			 {
+					Index[i].element[i_e] = temp_char;
+					source.get(temp_char);
+			 }
+					Index[i].element[i_e] = '\0';
+		}
+		source >> Index[i].weight;
+		source.ignore(1, '\n');
+		source.get(temp_char);
+		i++;
+	}
+	 source.close();
+
+}
+
+void Sort (Atomic_weight Index[])
+{
+	int j = 0;
+	int jj = j + 1;
+	int init_jj = jj;
+	int index;
+	int count = 0;
+
+	for (index = 0; index < I_MAX; index++)
+	{
+	 for (; jj < I_MAX ; jj++)
+	 {
+	  if (strcmp(Index[j].element, Index[jj].element) > 0)
+			Swap(Index, j, jj);
+	 }
+	 count++;
+	 j++;
+	 jj = init_jj + count;
+	}
+}
+
+void Swap (Atomic_weight Index[], int x, int xx)
+{
+	char temp_array[E_SIZE];
+	float temp_float;
+
+	strcpy(temp_array, Index[x].element);
+	strcpy(Index[x].element, Index[xx].element);
+	strcpy(Index[xx].element, temp_array);
+	temp_float = Index[x].weight;
+	Index[x].weight = Index[xx].weight;
+	Index[xx].weight = temp_float;
+
+}
+
+void Parse_formula(Atomic_weight Index[], int i)
+{
+  char element_array[E_SIZE];
+  char subscript[E_SIZE];
+  char input_char;
+  float temp_weight = 0;
+  float weight_sum = 0;
+  cout.setf(ios::fixed, ios::floatfield);
+  cout.setf(ios::showpoint);
+  formula.open("formula.dat");
+  formula.get(input_char);
+
+  while (formula)
+  {
+	 if (input_char == '\n')
+	  {
+		 formula.get(input_char);
+		 cout << setprecision(2) << weight_sum << endl;
+		 weight_sum = 0;
+	  }
+	 Get_element(element_array, input_char);
+	 Search(Index, i, element_array, temp_weight);
+	 Get_subscript(subscript);
+	 weight_sum+=Sum_weight(atoi(subscript), temp_weight);
+	 formula.get(input_char);
+  }
+}
+
+void  Get_element(char element_array[], char input_char)
+{
+	int i_e=0;
+	if (islower(formula.peek()))
+	{
+	  element_array[i_e] = input_char;
+	  i_e++;
+	  formula.get(input_char);
+	  element_array[i_e] = input_char;
+	  i_e++;
+	}
+	else
+	{
+	  element_array[i_e] = input_char;
+	  i_e++;
+	}
+	element_array[i_e] = '\0';
+}
+
+void Search(Atomic_weight Index[], int i_loop, char element_array[],
+				float& temp_weight)
+{
+
+	for (i_loop=0; i_loop < I_MAX;i_loop++)
+	{
+		if (strcmp(Index[i_loop].element, element_array) == 0)
+			 temp_weight = Index[i_loop].weight;
+	}
+
+}
+
+void Get_subscript(char subscript[])
+{
+	int i_s=0;
+	char temp_sub;
+
+	if (isupper(formula.peek()))
+	{
+		 subscript[i_s] = '1';
+		 i_s++;
+	}
+	else
+	if (formula.peek() == '\n')
+	{
+	  subscript[i_s] = '1';
+	  i_s++;
+  //	  formula.ignore(1);
+	}
+	else
+	{
+		formula.ignore(1);
+		formula.get(temp_sub);
+		subscript[i_s] = temp_sub;
+		i_s++;
+		if (isdigit(formula.peek()))
+		{
+			formula.get(temp_sub);
+			subscript[i_s] = temp_sub;
+			i_s++;
+     //			formula.ignore(1);
+		}
+	formula.ignore(1);
+	}
+	subscript[i_s] = '\0';
+}
+
+float Sum_weight(int sub, float t_weight)
+{
+	 return (sub * t_weight);
+}
