@@ -149,6 +149,7 @@ void LL::deleteNode(int index)
 	}
 }
 
+
 void LL::displayList() const
 {
 	ListNode *ptr;
@@ -757,7 +758,7 @@ struct tnode
     string function_name;
     tnode * left;
     tnode * right;
-    LL * link;
+    LL * llist;
 };
 
 class BTree
@@ -795,7 +796,7 @@ public:
        store.print(); 
     }
 
-    void insert_node(int,string);
+    void insert_node(LL &);
     void remove_node(int);
     void inorder(ofstream &outfile) 
     { 
@@ -889,15 +890,27 @@ public:
     void receive_data(LL &);
 };
 
-void BTree::insert_node(int line, string data)
+void BTree::insert_node(LL &func)
 {
+    
+    Row row;
+    func.get_data(row);
+    
     tnode * node = NULL;
     node = new tnode;
-    node->index = line;
+    
+    node->index = row.line;
+    node->function_name = row.data;
+    
     node->count = 1;
-    node->function_name = data;
     node->left = node->right = NULL;
-    node->link = new LL;
+    node->llist = new LL;
+    
+    while (row.data != "*end*")
+    {
+        func.get_data(row);
+        node->llist->insertNode(row.line, row.data);
+    }
     
     
     insert(root, node);
@@ -980,6 +993,7 @@ void BTree::inorder(tnode *ptr, ofstream &outfile)
     {
         inorder(ptr->left, outfile);
         outfile << " line: " << ptr->index << " data: " << ptr->function_name << endl;
+        ptr->llist->displayList();
         inorder(ptr->right, outfile);
     }
 }
@@ -1169,32 +1183,88 @@ void BTree::delete_routine(tnode *ptr)
 
 void BTree::receive_data(LL &data)
 {
-    LL temp;
-    int count = data.get_index();
-    Row row1;
-    Row row2;
+    // int count = data.get_index();
+    Row row;
     
     bool is_func = false;
     string join;
+    LL func;
     
-    while (count != 1)
+    // clear first $
+    data.get_data(row);
+    data.get_data(row);
+    // ensure same line not read more than twice.
+    int count_line = 0;
+    int what_line;
+    
+    while (row.data != "*end*")
     {
-        data.get_data(row1);
+        what_line = row.line;
+        int ready = row.data.find("$");
+        int check_func = row.data.find("~");
         
-        int check_func = row1.data.find("*");
+        if (ready > -1)
+        {
+            outfile << "display func: " << endl;
+            func.insertNode(999, "*end*");
+            func.displayList();
+            insert_node(func);
+            outfile << "end func display." << endl;
+            data.get_data(row);
+        }
         
         if (check_func > -1)
         {
-            is_func = !is_func;
+            cout << "begin func" << endl; 
+            int line = row.line;
+            int count = 0;
+            while (row.data != "*" && row.data != "*end*")
+            {
+                string add = row.data;
+                data.get_data(row);
+                add =  add + " " + row.data;
+                cout << line << " " << add << endl;
+                int e = add.find("~");
+                if (e > -1)
+                {
+                    add.erase(0,1);
+                }
+                func.insertNode(line, add);
+                // insert_node(line, add);
+                data.get_data(row);
+            }
+            cout << "end func" << endl; 
+            func.insertNode(line, "end arguments");
+            // insert_node(line, "end arguments");
+            is_func = false;
         }
-        // if (is_func == true)
-        // {
-            
-            join = row1.data + " " + row2.data;
-            cout << "is a func" << endl; 
-            insert_node(row1.line, row1.data);
-        // }
-        --count;
+        else if (ready == -1)
+        {
+            if (what_line = row.line)
+            {
+                count_line++;
+            }
+            int line = row.line;
+            string add = row.data;
+            data.get_data(row);
+            add = add + " " + row.data;
+            string check = check_line(add);
+            if (check == "var" && count_line == 2)
+            {
+                func.insertNode(line, add);
+                // insert_node(line, add);
+            }
+            else if (count_line > 2)
+            {
+                while (what_line == row.line)
+                {
+                    data.get_data(row);
+                }
+                count_line = 0;
+            }
+        }
+        
+        // --count;
     }
 }
 
@@ -1233,9 +1303,6 @@ void read_line(string c, int index)
         
         string tk = token;
         tk = trim_whitespace(tk);
-        // outfile << index << "." << tk << endl;
-        
-        // cout << tk << endl;
         bool contains_num = check_numbers(tk);
         
         if (!contains_num)
@@ -1343,7 +1410,8 @@ int main()
 	    if (check == "void")
 	    {
 	       // cout << "void" << endl;
-    	    read_line("*" + line + "*", index);
+	        read_line("$", index);
+    	    read_line("~" + line + "*", index);
 	        
 	    }
 	    else if (check == "var")
@@ -1352,21 +1420,22 @@ int main()
 	        int find_paren = line.find("(");
 	        if (find_paren > -1)
 	        {
-    	        read_line(line, index);
+    	        read_line("~" + line, index);
 	       
 	        }
 	        else
 	        {
-    	        read_line(line + "*", index);
+    	        read_line(line, index);
 	        }
 	    }
 	   // cout << index << " : " << line << endl;
 	    ++index;
     }
+    read_line("*end*",9999);
     
     // p_data.displayList();
     // p_data.distribute();
-    // p_data.displayList();
+    p_data.displayList();
     t.receive_data(p_data);
     t.inorder(outfile);
     
