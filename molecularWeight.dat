@@ -157,8 +157,7 @@ void  Get_element(char element_array[], char input_char)
 	element_array[i_e] = '\0';
 }
 
-void Search(Atomic_weight Index[], int i_loop, char element_array[],
-				float& temp_weight)
+void Search(Atomic_weight Index[], int i_loop, char element_array[], float& temp_weight)
 {
 
 	for (i_loop=0; i_loop < I_MAX;i_loop++)
@@ -204,7 +203,7 @@ void Get_subscript(char subscript[])
 	subscript[i_s] = '\0';
 }
 
-float Sum_weight(int sub, float t_weight)
+void Sum_weight(int sub, float t_weight)
 {
 	 return (sub * t_weight);
 }

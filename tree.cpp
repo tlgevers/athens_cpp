@@ -569,7 +569,7 @@ private:
     int sum_values(tnode *);
     bool search(tnode *, int, bool);
     int duplicate_count(tnode *);
-    int deepest_value(tnode *, int, int);
+    void deepest_value(tnode *, int, int &, int &);
     int one_child_count(tnode *);
     void delete_routine(tnode *);
     void find_below_nine(tnode *);
@@ -674,8 +674,10 @@ public:
     }
     int deepest_value(ofstream &outfile)
     {
-        int value = 0;
-        value = deepest_value(root, 0, value);
+        int value = -1;
+        int level = -1;
+        int max = 0;
+        deepest_value(root, level, max, value);
         outfile << "The deepest value is: " << value << endl;
     }
     int one_child_count(ofstream &outfile)
@@ -899,19 +901,18 @@ int BTree::duplicate_count(tnode *ptr)
     }
 }
 
-int BTree::deepest_value(tnode *ptr, int l, int max)
+void BTree::deepest_value(tnode *ptr, int l, int &max, int &result)
 {
-    if (ptr == NULL)
+    if (ptr != NULL)
     {
-        return 0;
+        deepest_value(ptr->left, ++l, max, result);
+        if (l > max)
+        {
+            result = ptr->value;
+            max = l;
+        }
+        deepest_value(ptr->right, l, max, result);
     }
-    if (!ptr->left && !ptr->right && l > max)
-    {
-        max = ptr->value;
-        return max;
-    }
-    deepest_value(ptr->left, ++l, max);
-    deepest_value(ptr->right, ++l, max);
 }
 
 int BTree::one_child_count(tnode *ptr)

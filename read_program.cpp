@@ -1,4 +1,4 @@
-// Read a Program & Store in Binary Tree
+// Read a Program & Store in Binary Tree & Linked List
 // Trevor Gevers / Data Structures CS 372
 
 #include <algorithm>
@@ -158,7 +158,25 @@ void LL::displayList() const
 
 	while (ptr != NULL)
 	{
-		outfile << ptr->index << "line: " << ptr->line << " data: " << ptr->data << endl;
+	    if (ptr->data == "end args")
+	    {
+	        if (ptr->data == "end args")
+	        {
+                outfile << "Function Variables:" << endl;
+	        }
+	        else
+	        {
+	           // do nothing
+	        }
+	    }
+	    else if (ptr->data == "end function")
+	    {
+	        outfile << "END FUNCTION\n" << endl;
+	    }
+	    else
+	    {
+            outfile << "line: " << ptr->line << " data: " << ptr->data << endl;
+	    }
 		ptr = ptr->link;
 	}
 }
@@ -208,547 +226,23 @@ Row LL::get_data(Row &row)
     ListNode *ptr;
     ptr = head;
     
-    
-    row.line = ptr->line;
-    row.data = ptr->data;
-    
-    // cout << "line: " << row.line << "data: " << row.data << endl;
-    
-    deleteNode(position);
-    position++;
-    
-    return row;
-}
-
-class List
-{
-    public:
-    // TYPEDEF VALUES AND SIZE OF ARRAY VALUE
-    typedef int value_type;
-    typedef std::size_t size_type;
-    static const size_type CAPACITY = 500; 
-    
-    // CONSTRUCTORS
-    List(); 
-    List(List &A);
-    
-    // METHODS
-    bool empty();
-    void first();
-    void last();
-    void prev();
-    void next();
-    value_type getPos();    
-    void setPos(value_type);
-    void insertBefore(value_type);
-    void insertAfter(value_type);
-    size_type size();
-    void replace(int);
-    void erase();
-    void clear();
-    void left_justify();
-    value_type getElement();
-    
-// JUST FOR INITIAL TESTING
-    void print(); 
-// JUST FOR INITIAL TESTING
-    
-	friend std::ostream &operator<<(std::ostream &, List &);
-    bool operator==(List &); 
-    void operator+(List &);
-    void operator=(List &);
-	
-    private:
-    
-    value_type data[CAPACITY];
-    size_type my_size;
-    value_type position;     
-    void set_to_zero();
-    
-};
-
-List::List()
-{
-    first();    
-    my_size = 0;
-    set_to_zero();
-}
-
-List::List(List &A)
-{
-    first();    
-    my_size = 0;
-    set_to_zero();
-    
-    for (int i = 0; i < CAPACITY; i++)
+    if (ptr != NULL)
     {
-        data[i] = A.data[i];
-    }
-    left_justify();
-}
-
-
-void List::set_to_zero()
-{
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        data[i] = 0;
-    }
-}
-
-bool List::empty() 
-{
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        if (data[i] != 0)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-void List::first()
-{
-    position = 0;
-}
-
-void List::last()
-{
-    if (my_size == 0)
-    {
-        position = 0;
-    }
-    if (my_size == 1)
-    {
-        position = 0;
-    }
-    if (my_size > 1)
-    {
-        position = my_size - 1;
-    }
-    
-}
-
-void List::prev()
-{
-    if (position <= 0)
-    {
-        return;
-    }
-    position--;
-}
-
-void List::next()
-{
-    if (position >= (CAPACITY - 1))
-    {
-        return;
-    }
-    position++;
-}
-
-int List::getPos()
-{
-    return position;
-}
-
-void List::setPos(int p)
-{
-    if (p > (CAPACITY - 1)|| p < 0)
-    {
-        return;
-    }
-    position = p;    
-}
-
-void List::insertBefore(int value)
-{
-    if (my_size == CAPACITY)
-    {
-        return;
-    }
-    
-    if (data[position] == 0)
-    {
-        data[position] = value;
-            
-        left_justify();
-        return;
-    }
-    
-    if (position == 0) {
-        for (int i = my_size + 1; i > (position); i--)
-        {
-            data[i] = data[i - 1];
-        }
-        data[position] = value;
-        left_justify();
-        return;
-    }
-    
-    for (int i = my_size + 1; i > (position - 1); i--)
-    {
-       data[i] = data[i - 1];
-    }
-    
-    data[position - 1] = value;
-    left_justify();
-}
-
-void List::insertAfter(int value)
-{
-    
-    if (my_size == CAPACITY)
-    {
-       return;
-    }
-    
-    if (data[position] == 0)
-    {
-        data[position] = value;
+        row.line = ptr->line;
+        row.data = ptr->data;
+        deleteNode(position);
+        position++;
         
-        left_justify();
-        return;
+        return row;
     }
-    
-    if (position == 0) {
-        for (int i = my_size + 1; i > (position); i--)
-        {
-            data[i] = data[i - 1];
-        }
-        data[position + 1] = value;
-        left_justify();
-        return;
-    }
-    
-    for (int i = my_size + 1; i > position + 1; i--)
+    else
     {
-       data[i] = data[i - 1];
-    }
-    
-    data[position + 1] = value;
-    left_justify();
-}
-
-int List::getElement()
-{
-    return data[position];
-}
-
-std::size_t List::size()
-{
-    return my_size;
-}
-
-void List::replace(int new_value)
-{
-    data[position] = new_value;
-}
-
-void List::erase()
-{
-    data[position] = 0; 
-    left_justify();
-}
-
-void List::clear()
-{
-    this->set_to_zero();
-}
-
-// JUST FOR INITIAL TESTING
-void List::print()
-{
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        outfile << data[i] << " ";
-    }
-    outfile << "\n";
-}
-// JUST FOR INITIAL TESTING
-
-std::ostream & operator<<(std::ostream &out, List &A)
-{
-    int *ptr;
-    ptr = A.data;
-    int count = 0;
-    while(*ptr && count != 20)
-    {
-        if (*ptr != 0)
-        {
-            out << *ptr << " ";
-        }
-        ptr++;
-        count++;
-    }
-    return out;
-}
-
-bool List::operator==(List &L)
-{
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        if (L.data[i] != data[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-void List::operator+(List &L)
-{
-   for (int i = 0; i < CAPACITY; i++)
-   {
-       data[i] = data[i] + L.data[i];
-   }
-   left_justify();
-}
-
-void List::operator=(List &L)
-{
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        data[i] = L.data[i];
-    }
-    left_justify();
-}
-
-void List::left_justify()
-{
-    int index = 0;
-    int zero_pos = 0;
-    int outlier = 0;
-    bool found = false;
-    
-    while(index <= CAPACITY)
-    {
-        if (data[index] == 0)
-        {
-            zero_pos = index;
-            
-            for (int i = index; i < CAPACITY; i++)
-            {
-                if (data[i] != 0)
-                {
-                    outlier = i;
-                    found = true;
-                }
-            }
-            
-            if (found == true)
-            {
-                data[zero_pos] = data[outlier];
-                data[outlier] = 0;
-                index = outlier;
-                found = false;
-            }
-            
-        }
-        index++;
-    }
-    my_size = 0;
-    for (int i = 0; i < CAPACITY; i++)
-    {
-        
-        if (data[i] != 0)
-        {
-            my_size++;
-        }
-        if (data[i] == 0)
-        {
-            break;
-        }
+        row.line = 9999;
+        row.data = "NULL";
+        return row;
     }
 }
 
-class Stack : virtual public List
-{
-    public:
-    int max;
-    void pop(); //remove last value placed in stack, last value in
-    int size(); 
-    void push(int);
-    int top();
-    bool empty();
-    bool full();
-    void print();
-    void max_value();
-    int get_max();
-    Stack();
-    
-    private:
-};
-
-Stack::Stack()
-{
-    max = 0;      
-}
-
-void Stack::pop()
-{
-    if (List::empty())
-    {
-       return; 
-    }
-    List::last();
-    List::erase();
-    max_value();
-}
-
-int Stack::size()
-{
-    return List::size();
-    
-}
-
-void Stack::push(int value)
-{
-    List::last();
-    List::insertAfter(value);
-    max_value();
-}
-
-int Stack::top()
-{
-    List::last();
-    return List::getElement();
-}
-
-bool Stack::empty()
-{
-    return List::empty();
-}
-
-bool Stack::full()
-{
-    if (List::size() == 20)
-    {
-        return true;
-    }
-    return false;
-}
-
-void Stack::print()
-{
-    List::print();
-}
-
-void Stack::max_value()
-{
-    int temp = 0;
-    for (int i = 0; i < size(); i++)
-    {
-        List::setPos(i);
-        temp = List::getElement();
-        if (temp > max)
-        {
-            max = temp;
-        }
-    }
-}
-
-int Stack::get_max()
-{
-    return max;
-}
-
-class Queue : virtual public List
-{
-    public:
-    void pop(); //remove first value placed in the stack
-    int size(); 
-    void push(int);
-    int top();
-    bool empty();
-    bool full();
-    void print();
-    void push_stack(int);
-    void pop_stack();
-    int top_stack();
-    void clear();
-    
-    Queue();
-    
-    private:
-    Stack auxiliary;
-};
-
-Queue::Queue():List()
-{
-}
-
-void Queue::pop()
-{
-    if (List::empty())
-    {
-       return; 
-    }
-    List::last();
-    List::erase();
-}
-
-int Queue::size()
-{
-    return List::size();
-    
-}
-
-void Queue::push(int value)
-{
-    List::first();
-    List::insertBefore(value);
-}
-
-int Queue::top()
-{
-    List::last();
-    return List::getElement();
-}
-
-bool Queue::empty()
-{
-    return List::empty();
-}
-
-bool Queue::full()
-{
-    if (List::size() == 20)
-    {
-        return true;
-    }
-    return false;
-}
-
-void Queue::print()
-{
-    List::print();
-}
-
-void Queue::push_stack(int store)
-{
-    auxiliary.push(store);
-}
-
-
-void Queue::pop_stack()
-{
-    if (!auxiliary.empty())
-    {
-        auxiliary.pop();
-    }
-}
-
-int Queue::top_stack()
-{
-    return auxiliary.top();
-}
-
-void Queue::clear()
-{
-    List::clear();
-}
 
 struct tnode
 {
@@ -789,18 +283,11 @@ public:
     // Destructor
     ~BTree() { }
     
-    Stack store;
-    Queue printer;
-    void print_stack()
-    {
-       store.print(); 
-    }
-
     void insert_node(LL &);
     void remove_node(int);
     void inorder(ofstream &outfile) 
     { 
-        outfile << "print inorder:\n";
+        outfile << "Print Binary Tree Inorder\n";
         inorder(root, outfile);
         outfile << endl;
     }
@@ -809,34 +296,12 @@ public:
         preorder(root, outfile); 
         outfile << "print preorder: ";
         
-        for (int i = 0; i < 20; i++)
-        {
-            if (i % 5 == 0)
-            {
-                outfile << endl;
-            }
-            outfile << printer.top() << " ";
-            printer.pop(); 
-        }
-        outfile << endl;
-        printer.clear();
     }
     void postorder(ofstream &outfile)
     { 
         postorder(root, outfile); 
         outfile << "print postorder: ";
         
-        for (int i = 0; i < 20; i++)
-        {
-            if (i % 5 == 0)
-            {
-                outfile << endl;
-            }
-            outfile << printer.top() << " ";
-            printer.pop(); 
-        }
-        outfile << endl;
-        printer.clear();
     }
     void nodes_count(ofstream &outfile)
     {
@@ -906,7 +371,7 @@ void BTree::insert_node(LL &func)
     node->left = node->right = NULL;
     node->llist = new LL;
     
-    while (row.data != "*end*")
+    while (row.data != "end function")
     {
         func.get_data(row);
         node->llist->insertNode(row.line, row.data);
@@ -992,8 +457,11 @@ void BTree::inorder(tnode *ptr, ofstream &outfile)
     if (ptr)
     {
         inorder(ptr->left, outfile);
-        outfile << " line: " << ptr->index << " data: " << ptr->function_name << endl;
+        outfile << "FUNCTION NAME: " << endl;
+        outfile << "line: " << ptr->index << " data: " << ptr->function_name << endl;
+        outfile << "Function Arguments" << endl;
         ptr->llist->displayList();
+        // outfile << "END OF FUNCTION" << endl;
         inorder(ptr->right, outfile);
     }
 }
@@ -1002,8 +470,7 @@ void BTree::preorder(tnode *ptr, ofstream &outfile)
 {
     if (ptr)
     {
-        // outfile << ptr->value << endl;
-        printer.push(ptr->value); 
+        outfile << ptr->value << endl;
         preorder(ptr->left, outfile);
         preorder(ptr->right, outfile);
     }
@@ -1015,8 +482,7 @@ void BTree::postorder(tnode *ptr, ofstream &outfile)
     {
         postorder(ptr->left, outfile);
         postorder(ptr->right, outfile);
-        printer.push(ptr->value); 
-        // outfile << ptr->value << endl;
+        outfile << ptr->value << endl;
     }
 }
 
@@ -1154,36 +620,8 @@ int BTree::sum_digits(int n)
     return (n%10) + sum_digits(n / 10);
 }
 
-void BTree::find_below_nine(tnode *ptr)
-{
-    if (ptr)
-    {
-        find_below_nine(ptr->left);
-        int check = sum_digits(ptr->value);
-        if (check < 9)
-        {
-            store.push(ptr->value); 
-        }
-        find_below_nine(ptr->right);
-    }
-}
-
-void BTree::delete_routine(tnode *ptr)
-{
-    store.empty();
-    
-    find_below_nine(root);
-    
-    while(store.top() != 0)
-    {
-        remove_node(store.top());
-        store.pop();
-    }
-}
-
 void BTree::receive_data(LL &data)
 {
-    // int count = data.get_index();
     Row row;
     
     bool is_func = false;
@@ -1191,80 +629,50 @@ void BTree::receive_data(LL &data)
     LL func;
     
     // clear first $
-    data.get_data(row);
-    data.get_data(row);
     // ensure same line not read more than twice.
     int count_line = 0;
     int what_line;
     
-    while (row.data != "*end*")
+    bool dollar = false;
+    bool star = false;
+    bool args = false;
+    
+    int cd = 0;
+    int cs = 0;
+    int ca = 0;
+    int enter_data = 0;
+    
+    string function = "";
+    string arguments = "";
+    string variable = "";
+    
+    row.line = 9999;
+    row.data = "";
+    data.get_data(row);
+    
+    while (row.data != "NULL")
     {
-        what_line = row.line;
-        int ready = row.data.find("$");
-        int check_func = row.data.find("~");
+        string h;
         
-        if (ready > -1)
+        data.get_data(row);
+        if (row.data == "*")
         {
-            outfile << "display func: " << endl;
-            func.insertNode(999, "*end*");
-            func.displayList();
+            func.insertNode(row.line, "end args");
+            data.get_data(row);
+        }
+        if (row.data == "$")
+        {
+            func.insertNode(row.line, "end function");
             insert_node(func);
-            outfile << "end func display." << endl;
             data.get_data(row);
         }
         
-        if (check_func > -1)
-        {
-            cout << "begin func" << endl; 
-            int line = row.line;
-            int count = 0;
-            while (row.data != "*" && row.data != "*end*")
-            {
-                string add = row.data;
-                data.get_data(row);
-                add =  add + " " + row.data;
-                cout << line << " " << add << endl;
-                int e = add.find("~");
-                if (e > -1)
-                {
-                    add.erase(0,1);
-                }
-                func.insertNode(line, add);
-                // insert_node(line, add);
-                data.get_data(row);
-            }
-            cout << "end func" << endl; 
-            func.insertNode(line, "end arguments");
-            // insert_node(line, "end arguments");
-            is_func = false;
-        }
-        else if (ready == -1)
-        {
-            if (what_line = row.line)
-            {
-                count_line++;
-            }
-            int line = row.line;
-            string add = row.data;
-            data.get_data(row);
-            add = add + " " + row.data;
-            string check = check_line(add);
-            if (check == "var" && count_line == 2)
-            {
-                func.insertNode(line, add);
-                // insert_node(line, add);
-            }
-            else if (count_line > 2)
-            {
-                while (what_line == row.line)
-                {
-                    data.get_data(row);
-                }
-                count_line = 0;
-            }
-        }
+        h = row.data + " ";
+        data.get_data(row);
+        h = h + row.data;
+        func.insertNode(row.line, h);
         
-        // --count;
+        
     }
 }
 
@@ -1273,9 +681,8 @@ LL p_data;
 
 void read_line(string c, int index)
 {
-    // outfile << endl;
     c = trim_whitespace(c);
-    const char *ptr = c.c_str();
+    // const char *ptr = c.c_str();
     char * str = new char [c.length() + 1];
     strcpy(str, c.c_str());
     
@@ -1293,7 +700,6 @@ void read_line(string c, int index)
     if (find_void > -1 && find_semic > -1 || find_const > -1)
     {
         test = 1;
-        // cout << test << endl;
     }
     
     char * token;
@@ -1310,7 +716,7 @@ void read_line(string c, int index)
             p_data.insertNode(index, tk);
         }
         
-        token = strtok(NULL, "(,);= ");
+        token = strtok(NULL, "(,);= + ");
     }
 }
 
@@ -1346,7 +752,7 @@ string check_line(string v)
     }
     string t;
     int test;
-    string important[7] = {"int ", "char ", " float ", "double ", "string ", "struct ", "void"}; 
+    string important[7] = {"int ", "char ", "float ", "double ", "string ", "struct ", "void"}; 
     for (int i = 0; i < 7; i++)
     {
         test = v.find(important[i]);
@@ -1398,46 +804,58 @@ int main()
     BTree t;
     
     string line;	
-    int index = 0;
+    int index = 1;
     string check;
     int open = 0;
     
     while(infile.good())
     {
 	    getline(infile, line); 
+	    int find_misc = line.find("_float =");
+	    if (find_misc > -1)
+	    {
+	        cout << index << " " << line << endl;
+	        getline(infile, line);
+	    }
 	    check = check_line(line);
-	    
 	    if (check == "void")
 	    {
-	       // cout << "void" << endl;
 	        read_line("$", index);
-    	    read_line("~" + line + "*", index);
+    	    read_line(line + "*", index);
 	        
 	    }
 	    else if (check == "var")
 	    {
-	       // cout << "var" << endl;
 	        int find_paren = line.find("(");
+	        int find_plus = line.find("+");
+	        int find_equal = line.find("=");
+	        
+	        if (find_plus > -1)
+	        {
+	            line.erase(find_plus, line.size() - find_plus);
+	        }
+	        if (find_equal > -1)
+	        {
+	            line.erase(find_equal, line.size() - find_equal);
+	        }
 	        if (find_paren > -1)
 	        {
-    	        read_line("~" + line, index);
-	       
+    	        read_line(line, index);
 	        }
 	        else
 	        {
     	        read_line(line, index);
 	        }
 	    }
-	   // cout << index << " : " << line << endl;
 	    ++index;
     }
-    read_line("*end*",9999);
+    read_line("$",9999);
     
-    // p_data.displayList();
-    // p_data.distribute();
-    p_data.displayList();
+    p_data.displayList();    
+    outfile << "Trevor Gevers: The following program reads a program and stores \n";
+    outfile << "it in a Binary Tree & Linked List\n" << endl;
     t.receive_data(p_data);
     t.inorder(outfile);
-    
+    outfile << "demo" << endl;
     return 0;
 }

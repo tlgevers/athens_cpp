@@ -30,6 +30,7 @@ void fillArray1(int *, int, int);
 void fillArray2(int *, int, int);
 void fillArray3(int *, int, int, int);
 void printArray(int *);
+void running(double, double);
 
 
 int main()
@@ -92,6 +93,9 @@ int main()
     {
         outfile << arrF11[i] << endl;
     }
+    
+    cout << "running: " << endl;
+    running(0, 0);
     
     return 0;
 }
@@ -261,4 +265,18 @@ void printArray(int * ptr)
         ptr++;
         count++;
     }
+}
+
+void running(double mins, double miles)
+{
+    if (mins == 55)
+    {
+        return;
+    }
+    if (mins > 5)
+    {
+        miles = miles - 0.05;
+    }
+    cout << "mins: " << mins << " miles: " << miles << endl;
+    running(5 + mins, 0.67 + miles);
 }
