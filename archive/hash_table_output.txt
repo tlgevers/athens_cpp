@@ -1,0 +1,103 @@
+// Hash Program | CS 372 | Trevor Gevers
+
+Print out the final database: 
+
+tobe ore knott 613-2414
+
+antoney wenner 999-3255
+
+hofstra m 601-3225
+
+fanny pac jac 842-3242
+
+e lec shaun 709-7424
+
+juan legged 882-6246
+
+chipoff e oblock 773-4152
+
+oe vey 177-1423
+
+legg t 587-2839
+
+twoseeor knocksee 823-8321
+
+cray z cyco 134-7242
+
+james wilis thomas 261-8342
+
+lea high lee 266-8324
+
+sid macgriddy 882-2424
+
+sixone other 843-2343
+
+lewis michelle tee 828-2148
+
+currie w d 701-4281
+
+sticky finger mcridder 829-9853
+
+hauser yauser 606-2940
+
+mack russell 123-1234
+
+man oh mann 313-7422
+
+malioneyh p j 287-4344
+
+morier g e 544-2319
+
+hasey moto 823-8000
+
+hack n zakkers 231-4449
+
+smelly tau 707-7281
+
+stone rock 544-2372
+
+tau jam 532-6871
+
+john marshall 888-2891
+
+g p morier 832-4562
+
+hewy lewy dewy 623-9921
+
+stephens reynolds 696-9231
+
+znot noz oozey 531-4353
+
+taylor marie 939-1512
+
+hoos r dadie 818-3821
+
+bee yond lawz 634-2454
+
+mighty mouse 222-2222
+
+mister rogers 924-7221
+
+zevent heaven 834-2563
+
+big tow 384-5624
+
+toob ornot 283-5214
+
+tyson chicken 602-3152
+
+There were 11 collisions total. 
+
+Lookup values: 
+Find: Smelly Socks
+That name is not in the database.
+Find: Mighty Mouse
+The phone number is: 222-2222
+Find: Hauser
+The phone number is: 606-2940
+Find: Big
+The phone number is: 384-5624
+Find: mack russell
+The phone number is: 123-1234
+Find: JOSH
+That name is not in the database.

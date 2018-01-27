@@ -1,4 +1,4 @@
-// Read a Program & Store in Binary Tree & Linked List
+/ Read a Program & Store in Binary Tree & Linked List
 // Trevor Gevers / Data Structures CS 372
 
 #include <algorithm>

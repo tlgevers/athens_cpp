@@ -1,3 +1,5 @@
+// Hash Program | CS 372 | Trevor Gevers
+
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -8,6 +10,7 @@
 using namespace std;
 
 ifstream infile;
+ofstream outfile;
 
 struct info
 {
@@ -52,27 +55,26 @@ public:
         int count = 0;
         string key;
         
-        while(count != 3)
+        while(count != 4)
         {
             if (isalpha(*v) && count < 1)
             {
                 string con(1, *v);
                 key.append(con);
                 int character = (*v - 97) % CAPACITY;
-                index = index + character * character;
+                index = index + (character * character) % CAPACITY;
                 count++;
             }
             else if (isalpha(*v))
             {
                 string con(1, *v);
                 key.append(con);
-                int character = (*v - 97) % 26;
-                index = index + character * character;
+                int character = (*v - 97);
+                index = index + (character * character) % 26;
                 count++;
             }
             ++v;
         }
-        cout << "key" << key << endl;
         delete [] str;
         
         info keys;
@@ -89,7 +91,6 @@ public:
         
         int use_index = available(index.index);
         
-        cout << "index:" << index.index << endl;
         table[use_index][0] = "false";
         table[use_index][1] = index.key;
         table[use_index][2] = entry.names;
@@ -105,6 +106,7 @@ public:
         }
         else
         {
+            ++collisions;
             table[check_index][4] = "true";
             string check = "false";
             int index = check_index;
@@ -121,7 +123,6 @@ public:
                 }
                 else
                 {
-                    ++collisions;
                     ++index;
                 }
             }
@@ -141,10 +142,9 @@ public:
     {
         info find_index = hash_function(f);
         
-        cout << "collision: " <<  table[find_index.index][4] << endl;
         if (table[find_index.index][1].compare(find_index.key) == 0)
         {
-            cout << "The phone number is: " << table[find_index.index][3] << endl;
+            outfile << "The phone number is: " << table[find_index.index][3] << endl;
         }
         else if (table[find_index.index][4] == "true")
         {
@@ -167,11 +167,11 @@ public:
                     ++index;       
                 }
             }
-            cout << "The phone number is: " << table[index][3] << endl;
+            outfile << "The phone number is: " << table[index][3] << endl;
         }
         else
         {
-            cout << "That name is not in the database." << endl;
+            outfile << "That name is not in the database." << endl;
         }
     }
     
@@ -180,13 +180,14 @@ public:
         return collisions;    
     }
     
-    void test()
+    void print_table()
     {
         for (int i = 0; i < CAPACITY; i++)
         {
             if (table[i][0] != "true")
-                cout << i << " " << table[i][0] << " " << table[i][1] << " " << table[i][2] << " " << table[i][3] << endl;
+                outfile << table[i][2] << " " << table[i][3] << endl;
         }
+        outfile << endl;
     }
 
 };
@@ -248,7 +249,13 @@ int main()
     infile.open("HashNamesAndPhone.txt");
     if (!infile)
     {
-        cout << "The infile did not open!\n";
+        outfile << "The infile did not open!\n";
+    }
+    
+    outfile.open("hash_table_output.txt");
+    if (!outfile)
+    {
+        cout << "The outfile did not open!\n";
     }
     
     char one;
@@ -289,11 +296,23 @@ int main()
             number.append(in); 
         }
     }
-    
-    ht.test();
-    ht.find("sme");
+    outfile << "\n";
+    outfile << "Print out the final database: " << endl;
+    ht.print_table();
+    outfile << "There were " << ht.get_collisions() << " collisions total. " << endl;
+    outfile << "\n";
+    outfile << "Lookup values: " << endl;
+    outfile << "Find: Smelly Socks" << endl;
+    ht.find("Smelly Socks");
+    outfile << "Find: Mighty Mouse" << endl;
     ht.find("mighty mouse");
+    outfile << "Find: Hauser" << endl;
     ht.find("hauser");
-    
+    outfile << "Find: Big" << endl;
+    ht.find("big tow");
+    outfile << "Find: mack russell" << endl;
+    ht.find("mack russell");
+    outfile << "Find: JOSH" << endl;
+    ht.find("JOSH");
     return 0;
 }
